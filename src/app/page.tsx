@@ -7,10 +7,10 @@ import {
   IPerson,
   ITask,
 } from "./apis";
-import { getPeopleForTask } from "./parent/page";
 import Link from "next/link";
 import Zeke from "../../public/zeke.png";
 import Kai from "../../public/kai.jpg";
+import TaskSquare from "./TaskSquare";
 
 export default async function Home() {
   const today = new Date();
@@ -105,12 +105,7 @@ export default async function Home() {
                 .map((t) =>
                   t.tasks.map((task) => {
                     return (
-                      <div
-                        className="h-50 place-items-center justify-center flex border-x-1 border-b-1 border-gray-200"
-                        key={task.id}
-                      >
-                        <div>{task.text}</div>
-                      </div>
+                      <TaskSquare task={task} />
                     );
                   })
                 )}
