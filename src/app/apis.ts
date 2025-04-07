@@ -1,6 +1,6 @@
 "use server";
-import { neon, NeonQueryFunction } from "@neondatabase/serverless";
-import { revalidatePath } from "next/cache";
+import {neon, NeonQueryFunction} from "@neondatabase/serverless";
+import {revalidatePath} from "next/cache";
 
 function getSqlDb(): NeonQueryFunction<false, false> {
   return neon(`${process.env.DATABASE_URL}`);
@@ -17,6 +17,14 @@ export async function addPerson(name: string): Promise<number> {
   return record[0].id;
 }
 
+/**
+ * Adds a task to the database 
+ * @param formData - FormData object
+ *                   Expected fields:
+ *                   - task-text: Task description
+ *                   - person: number[] associated with person IDs ([1, 2])
+ * @returns A promise that resolves after all database inserts
+ */
 export async function addTask(formData: FormData): Promise<void> {
   const sql = getSqlDb();
 

@@ -13,9 +13,9 @@ import {
   IPeopleTask,
   IPerson,
 } from "../apis";
-import AddTask from "./addTaskDialog";
-import { RiTaskLine } from "react-icons/ri";
+import {RiTaskLine} from "react-icons/ri";
 import DeleteTaskButton from "./deleteTaskButton";
+import FormPopup from "../components/FormPopup";
 
 export function getPeopleForTask(
   taskId: number,
@@ -67,7 +67,26 @@ export default async function Parent() {
             </div>
           ))}
         </div>
-        <AddTask people={people} />
+        <FormPopup action={addTask} title="Dialog Form" buttonCaption="Add Task">
+          <>
+            <label htmlFor="task-text">Task:</label>
+            <input type="text" id="task-text" name="task-text" />
+            <fieldset className="flex gap-3">
+              <legend className="text-sm">Assigned To:</legend>
+              {people?.map((person) => (
+                <label key={person.id}>
+                  <input
+                    className="me-1"
+                    type="checkbox"
+                    name="person"
+                    value={person.id}
+                  />
+                  {person.name}
+                </label>
+              ))}
+            </fieldset>
+          </>
+        </FormPopup>
       </div>
     </div>
   );

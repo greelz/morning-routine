@@ -2,11 +2,50 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #.2.2.2;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Open state of the dialog  */
+dialog:open {
+  opacity: 1;
+  transform: scaleX(1) scaleY(1);
+}
+
+/* Closed state of the dialog   */
+dialog {
+  opacity: 0;
+  transform: scaleX(0) scaleY(0);
+  transition: all 0.2s allow-discrete;
+}
+
+/* Before open state  */
+/* Needs to be after the previous dialog:open rule to take effect,
+    as the specificity is the same */
+@starting-style {
+  dialog:open {
+    opacity: 0;
+    transform: scaleX(0) scaleY(0);
+  }
+}
+
+@starting-style {
+  dialog:open::backdrop {
+    background-color: rgb(0 0 0 / 0%);
+  }
+}
+
+/* Transition the :backdrop when the dialog modal is promoted to the top layer */
+dialog::backdrop {
+  background-color: rgb(0 0 0 / 0%);
+  transition: all 0.2s allow-discrete;
+}
+
+dialog:open::backdrop {
+  background-color: rgb(0 0 0 / 25%);
 }
