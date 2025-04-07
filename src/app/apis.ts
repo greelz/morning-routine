@@ -26,6 +26,8 @@ export async function addPerson(name: string): Promise<number> {
  * @returns A promise that resolves after all database inserts
  */
 export async function addTask(formData: FormData): Promise<void> {
+  console.log('here!');
+  console.log(formData);
   const sql = getSqlDb();
 
   const text = formData.get("task-text");

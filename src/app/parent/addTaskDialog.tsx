@@ -1,21 +1,17 @@
-"use client";
-
-import {useRef, useState} from "react";
 import {addTask, IPerson} from "../apis";
-import {FaChevronDown} from "react-icons/fa";
 import FormPopup from "../components/FormPopup";
 
 interface IAddTaskProps {
   people: IPerson[];
 }
 export default function AddTask({people}: IAddTaskProps) {
-  console.log(sectionHeight);
-  const ref = useRef<HTMLFormElement>(null);
   return (
-    <FormPopup action={addTask} title="Dialog Form" buttonCaption="Add Task">
+    <FormPopup action={addTask} title="Add a task" buttonCaption="Add Task">
       <>
-        <label htmlFor="task-text">Task:</label>
-        <input type="text" id="task-text" name="task-text" />
+        <div>
+          <label htmlFor="task-text text-sm">Task:</label>
+          <input type="text" id="task-text" name="task-text" />
+        </div>
         <fieldset className="flex gap-3">
           <legend className="text-sm">Assigned To:</legend>
           {people?.map((person) => (
@@ -32,6 +28,5 @@ export default function AddTask({people}: IAddTaskProps) {
         </fieldset>
       </>
     </FormPopup>
-    </div >
   );
 }

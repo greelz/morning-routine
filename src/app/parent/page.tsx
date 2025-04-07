@@ -16,6 +16,7 @@ import {
 import {RiTaskLine} from "react-icons/ri";
 import DeleteTaskButton from "./deleteTaskButton";
 import FormPopup from "../components/FormPopup";
+import TextField from "../components/TextField";
 
 export function getPeopleForTask(
   taskId: number,
@@ -67,10 +68,12 @@ export default async function Parent() {
             </div>
           ))}
         </div>
-        <FormPopup action={addTask} title="Dialog Form" buttonCaption="Add Task">
+        <FormPopup action={addTask} title="Add a task 2" buttonCaption="Add Task">
           <>
-            <label htmlFor="task-text">Task:</label>
-            <input type="text" id="task-text" name="task-text" />
+            <div className="grid">
+              <label htmlFor="task-text" className="text-sm">Task:</label>
+              <TextField type="text" id="task-text" name="task-text" />
+            </div>
             <fieldset className="flex gap-3">
               <legend className="text-sm">Assigned To:</legend>
               {people?.map((person) => (

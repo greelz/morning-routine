@@ -1,5 +1,6 @@
 'use client'
 import React, {useRef} from "react";
+import Button from "../components/Button";
 
 interface DialogFormProps {
   buttonCaption: string;
@@ -30,22 +31,24 @@ export default function FormPopup({buttonCaption, action, title, children}: Dial
 
   return (
     <>
-      <button onClick={openDialog} className="p-2 rounded max-w-30 bg-blue-600 text-white">
-        {buttonCaption}
-      </button>
+      <Button
+        onClick={openDialog}
+        caption={buttonCaption}
+        className="max-w-30"
+      />
 
       <dialog ref={dialogRef}
         onMouseDown={(event) =>
           event.target === event.currentTarget && event.currentTarget.close()}
-        className="rounded-lg p-6 max-w-md w-full fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white shadow">
-        <h1>{title}</h1>
-        <form action={action}>
+        className="rounded-lg p-6 max-w-md w-full fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+        <h1 className="text-lg text-center">{title}</h1>
+        <form action={action} className="grid gap-2">
           {children}
           <div className="flex justify-end gap-2">
-            <button
+            <Button
+              caption="Submit"
               type="submit"
-              className="py-2 px-3 bg-blue-600 text-white rounded"
-              onClick={closeDialog}>Submit</button>
+              onClick={closeDialog} />
           </div>
         </form>
       </dialog >
