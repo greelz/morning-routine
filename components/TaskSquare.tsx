@@ -1,7 +1,7 @@
 'use client'
 import {completeTask, uncompleteTask, ITask} from "@/utilities/apis"
 import {FaRegCircleDot} from "react-icons/fa6";
-import TaskIcon from "./TaskIcon";
+import Icon from "./Icon";
 
 interface ITaskSquare {
   task: ITask;
@@ -20,7 +20,7 @@ export default function TaskSquare({task, personId, completed}: ITaskSquare) {
         className={`flex flex-col gap-2 w-full h-70 place-items-center border-x-1 border-b-1 border-gray-200 hover:cursor-pointer ${completed ? "bg-green-200" : null}`}
       >
         <div className="h-[70%]">
-          <TaskIcon iconKey={task.iconkey} />
+          <Icon iconKey={task.iconkey} />
 
         </div>
         <div className="h-10">

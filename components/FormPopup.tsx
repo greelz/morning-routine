@@ -1,6 +1,7 @@
 'use client'
 import React, {useRef} from "react";
 import Button from "../components/Button";
+import {Dialog} from "./Dialog";
 
 interface DialogFormProps {
   buttonCaption: string;
@@ -21,38 +22,25 @@ interface DialogFormProps {
 export default function FormPopup({buttonCaption, action, title, children}: DialogFormProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
 
-  const openDialog = () => {
-    dialogRef.current?.showModal();
-  };
-
   const closeDialog = () => {
     dialogRef.current?.close();
   };
 
   return (
-    <>
-      <Button
-        onClick={openDialog}
-        caption={buttonCaption}
-        className="max-w-30"
-      />
-
-      <dialog ref={dialogRef}
-        onMouseDown={(event) =>
-          event.target === event.currentTarget && event.currentTarget.close()}
-        className="rounded-lg p-6 max-w-md w-full fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-        <h1 className="text-lg text-center">{title}</h1>
-        <form action={action} className="grid gap-2">
-          {children}
-          <div className="flex justify-end gap-2">
-            <Button
-              caption="Submit"
-              type="submit"
-              onClick={closeDialog} />
-          </div>
-        </form>
-      </dialog >
-    </>
+    <Dialog
+      ref={dialogRef}
+      openDialogButtonCaption={buttonCaption}
+      title={title}
+    >
+      <form action={action} className="grid gap-2">
+        {children}
+        <div className="flex justify-end gap-2">
+          <Button
+            caption="Submit"
+            type="submit"
+            onClick={closeDialog} />
+        </div>
+      </form>
+    </Dialog>
   );
 }
-

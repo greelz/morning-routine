@@ -1,7 +1,6 @@
 'use client'
 import {useState} from "react";
-import {IconKeys} from "./TaskIcon"; // same enum you're using
-import TaskIcon from "./TaskIcon"; // optional, for preview
+import Icon, {IconKeys} from "./Icon"; // optional, for preview
 
 const iconLabels: Record<IconKeys, string> = {
   Breakfast: "Breakfast",
@@ -45,7 +44,7 @@ export default function IconSelect({name, showPreview = true}: Props) {
         <div className="mt-2 flex items-center gap-2">
           <span className="text-sm text-gray-600">Preview:</span>
           <div className="w-6 h-6">
-            <TaskIcon iconKey={selected} />
+            <Icon iconKey={selected} />
           </div>
         </div>
       )}

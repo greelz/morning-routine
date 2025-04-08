@@ -1,5 +1,5 @@
 "use server";
-import {IconKeys} from "@/components/TaskIcon";
+import {IconKeys} from "@/components/Icon";
 import {neon, NeonQueryFunction} from "@neondatabase/serverless";
 import {revalidatePath} from "next/cache";
 

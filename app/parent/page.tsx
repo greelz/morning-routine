@@ -13,7 +13,7 @@ import DeleteTaskButton from "./deleteTaskButton";
 import FormPopup from "@/components/FormPopup";
 import TextField from "@/components/TextField";
 import IconPicker from "@/components/IconPicker";
-import TaskIcon from "@/components/TaskIcon";
+import Icon from "@/components/Icon";
 
 export function getPeopleForTask(
   taskId: number,
@@ -54,7 +54,7 @@ export default async function Parent() {
               key={t.id}
               className="grid grid-cols-[30px_1fr_1fr_auto] items-center gap-2 py-2 hover:[&>*]:opacity-100"
             >
-              <TaskIcon iconKey={t.iconkey} />
+              <Icon iconKey={t.iconkey} />
               <div>{t.text}</div>
               <div className="ms-auto opacity-30 gap-2 flex">
                 {getPeopleForTask(t.id, people, peopletasks)?.map((p) => (

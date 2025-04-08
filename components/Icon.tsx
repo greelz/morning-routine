@@ -20,7 +20,7 @@ export enum IconKeys {
   WashHands = "WashHands",
 }
 
-export default function TaskIcon({iconKey}: IIcon) {
+export default function Icon({iconKey}: IIcon) {
   switch (iconKey) {
     case IconKeys.BrushTeeth:
       return <Brush width="100%" height="100%" />;
