@@ -1,14 +1,12 @@
 'use client'
 import {useEffect, forwardRef, ForwardedRef, useImperativeHandle, useRef} from "react";
 import {Dialog} from "./Dialog";
-import Icon, {IconKeys} from "./Icon";
 interface ICelebrationPopup {
   title: string;
-  iconKey: IconKeys;
-  text: string;
   msDisplay?: number;
+  children: React.ReactNode;
 }
-export const CelebrationPopup = forwardRef(({title, iconKey, text, msDisplay = 1000}: ICelebrationPopup, ref: ForwardedRef<HTMLDialogElement>) => {
+export const CelebrationPopup = forwardRef(({title, children, msDisplay = 1000}: ICelebrationPopup, ref: ForwardedRef<HTMLDialogElement>) => {
 
   const localRef = useRef<HTMLDialogElement>(null);
 
@@ -26,8 +24,7 @@ export const CelebrationPopup = forwardRef(({title, iconKey, text, msDisplay = 1
 
   return (
     <Dialog ref={localRef} title={title}>
-      <Icon iconKey={iconKey} />
-      <p>{text}</p>
+      {children}
     </Dialog>
   );
 });

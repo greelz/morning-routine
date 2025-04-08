@@ -14,8 +14,6 @@ import Zeke from "@/public/zeke.png";
 import Kai from "@/public/kai.jpg";
 import TaskSquare from "@/components/TaskSquare";
 import {isSameDay} from "@/utilities/utils";
-import {CelebrationPopup} from "@/components/CelebrationPopup";
-import {IconKeys} from "@/components/Icon";
 
 export default async function Home() {
   const people = await getPeople();
@@ -91,7 +89,6 @@ export default async function Home() {
         </div>
       </div>
       <div className="flex flex-row gap-2 bg-white">
-        <CelebrationPopup title="Hello" iconKey={IconKeys.Breakfast} text="More words here" />
         {people.map((p) => {
           const completedTasks = getCompletedTaskIdsForPersonToday(taskCompletions, p.id);
           return (
