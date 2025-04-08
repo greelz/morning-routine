@@ -1,7 +1,7 @@
 "use client";
 
 import {FaRegTrashAlt} from "react-icons/fa";
-import {deleteTask} from "../apis";
+import {deleteTask} from "@/utilities/apis";
 
 interface IDeleteTaskButtonProps {
   id: number;

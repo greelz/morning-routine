@@ -1,4 +1,5 @@
 "use server";
+import {IconKeys} from "@/components/TaskIcon";
 import {neon, NeonQueryFunction} from "@neondatabase/serverless";
 import {revalidatePath} from "next/cache";
 
@@ -26,16 +27,15 @@ export async function addPerson(name: string): Promise<number> {
  * @returns A promise that resolves after all database inserts
  */
 export async function addTask(formData: FormData): Promise<void> {
-  console.log('here!');
-  console.log(formData);
   const sql = getSqlDb();
 
   const text = formData.get("task-text");
   const people = formData.getAll("person");
+  const iconKey = formData.get("selected-icon");
 
   const record = await sql`
-        INSERT INTO tasks (text) 
-        VALUES (${text})
+        INSERT INTO tasks (text, iconKey) 
+        VALUES (${text}, ${iconKey})
         RETURNING id`;
   const taskId = record[0].id;
 
@@ -49,9 +49,26 @@ export async function addTask(formData: FormData): Promise<void> {
   revalidatePath("/");
 }
 
+export async function completeTask(taskId: number, personId: number) {
+  const sql = getSqlDb();
+  await sql`
+    INSERT INTO task_completions (person_id, task_id, completed_at_date)
+    VALUES (${personId}, ${taskId}, ${new Date()})
+  `;
+  revalidatePath('/');
+}
+
+export async function uncompleteTask(taskId: number, personId: number) {
+  const sql = getSqlDb();
+  await sql`
+    DELETE FROM task_completions 
+    WHERE task_id = ${taskId} AND person_id = ${personId}
+  `;
+  revalidatePath('/');
+}
+
 export async function deleteTask(id: number) {
   const sql = getSqlDb();
-  console.log("here");
 
   await sql`
     DELETE FROM tasks
@@ -71,6 +88,13 @@ export interface IPeopleTask extends IId {
 }
 export interface ITask extends IId {
   text: string;
+  iconkey: IconKeys;
+}
+
+export interface ITaskCompletion extends IId {
+  completed_at_date: Date,
+  person_id: number,
+  task_id: number,
 }
 
 export async function getPeople(): Promise<IPerson[]> {
@@ -86,4 +110,9 @@ export async function getTasks(): Promise<ITask[]> {
 export async function getPeopleTasks(): Promise<IPeopleTask[]> {
   const sql = getSqlDb();
   return (await sql`SELECT * FROM peopletasks`) as IPeopleTask[];
+}
+
+export async function getTaskCompletions(): Promise<ITaskCompletion[]> {
+  const sql = getSqlDb();
+  return (await sql`SELECT * FROM task_completions`) as ITaskCompletion[];
 }

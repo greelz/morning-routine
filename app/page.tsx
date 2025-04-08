@@ -2,25 +2,38 @@ import Image from "next/image";
 import {
   getPeople,
   getPeopleTasks,
+  getTaskCompletions,
   getTasks,
   IPeopleTask,
   IPerson,
   ITask,
-} from "./apis";
+  ITaskCompletion,
+} from "@/utilities/apis";
 import Link from "next/link";
-import Zeke from "../../public/zeke.png";
-import Kai from "../../public/kai.jpg";
-import TaskSquare from "./TaskSquare";
+import Zeke from "@/public/zeke.png";
+import Kai from "@/public/kai.jpg";
+import TaskSquare from "@/components/TaskSquare";
+import {isSameDay} from "@/utilities/utils";
 
 export default async function Home() {
-  const today = new Date();
   const people = await getPeople();
   const peopletasks = await getPeopleTasks();
   const tasks = await getTasks();
+  const taskCompletions = await getTaskCompletions();
+
   interface IAllTasks {
     personId: number;
     name: string;
     tasks: ITask[];
+  }
+  function getCompletedTaskIdsForPersonToday(
+    completions: ITaskCompletion[],
+    personId: number,
+  ): number[] {
+    const today = new Date();
+    return completions
+      .filter((c) => c.person_id === personId && isSameDay(c.completed_at_date, today))
+      .map((c) => c.task_id);
   }
   function getTasksForEachPerson(
     people: IPerson[],
@@ -77,10 +90,11 @@ export default async function Home() {
       </div>
       <div className="flex flex-row gap-2 bg-white">
         {people.map((p) => {
+          const completedTasks = getCompletedTaskIdsForPersonToday(taskCompletions, p.id);
           return (
-            <div key={p.id} className="min-w-100 relative">
-              <div className="text-3xl bg-red-50 p-3 text-center flex flex-col justify-center items-center">
-                <h1>{p.name}</h1>
+            <div key={p.id} className="relative">
+              <div className="h-40 w-100 text-3xl bg-red-50 p-3 text-center flex flex-col justify-center items-center">
+                <h1 className="truncate w-90">{p.name}</h1>
                 {p.name === "Zeke" && (
                   <Image
                     alt="Zeke"
@@ -105,7 +119,11 @@ export default async function Home() {
                 .map((t) =>
                   t.tasks.map((task) => {
                     return (
-                      <TaskSquare task={task} />
+                      <TaskSquare
+                        key={task.id}
+                        task={task}
+                        personId={p.id}
+                        completed={completedTasks.includes(task.id)} />
                     );
                   })
                 )}
